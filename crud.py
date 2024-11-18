@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
 
-# Create a new customer
+# Create new customer
 def create_customer(db: Session, customer: schemas.CustomerCreate):
     db_customer = models.Customer(name=customer.name, email=customer.email)
     db.add(db_customer)
