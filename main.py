@@ -16,8 +16,6 @@ def get_db():
     finally:
         db.close()
 
-# Existing Endpoints
-
 @app.post("/customers/", response_model=schemas.Customer)
 def create_customer(customer: schemas.CustomerCreate, db: Session = Depends(get_db)):
     return crud.create_customer(db=db, customer=customer)
@@ -40,8 +38,6 @@ def create_address(customer_id: int, address: schemas.AddressCreate, db: Session
 @app.get("/customers/{customer_id}/addresses/", response_model=list[schemas.Address])
 def get_addresses_by_customer(customer_id: int, db: Session = Depends(get_db)):
     return crud.get_addresses_by_customer(db, customer_id=customer_id)
-
-# Missing Endpoints
 
 # PUT /customers/{customer_id} - Update a Customer
 @app.put("/customers/{customer_id}", response_model=schemas.Customer)
