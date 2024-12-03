@@ -1,2 +1,7 @@
-# Disclaimer
-This repository is for educational purposes only. The MySQL root password and other sensitive details in the code are not meant for use in a real environment.
+## Setting Up Configuration Files
+
+1. Copy the example configuration files to the required names:
+   ```bash
+   cp alembic.example.ini alembic.ini
+   cp database.example.py database.py
+   cp docker-compose.example.yml docker-compose.yml
