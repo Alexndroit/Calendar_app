@@ -4,12 +4,12 @@ from models.base import Base
 
 class Address(Base):
     __tablename__ = 'addresses'
-    __table_args__ = {"extend_existing": True}  # Avoid table conflicts during migrations
+    __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
-    street = Column(String(255), nullable=False)
-    city = Column(String(255), nullable=False)
-    zip_code = Column(String(10), nullable=False)  # Maximum length of 10 for ZIP codes
+    street = Column(String(200), nullable=False)
+    city = Column(String(100), nullable=False)
+    zip_code = Column(Integer, nullable=False)
     customer_id = Column(Integer, ForeignKey('customers.id'), nullable=False)
 
     # Relationships
