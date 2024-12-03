@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  mysql_db:
+    image: mysql:8.0  # Specify a stable version for better reliability
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rGEkY6HnKkREfne!
+      MYSQL_DATABASE: calendar_app
+    ports:
+      - "3307:3306"  # Host:Container
+    volumes:
+      - db_data:/var/lib/mysql
+
+  calendar_crud_app:
+    build:
+      context: .
+    container_name: calendar_crud_app
+    restart: always
+    ports:
+      - "8000:8000"  # Expose FastAPI on localhost:8000
+    depends_on:
+      - mysql_db
+    environment:
+      DATABASE_URL: mysql+mysqlconnector://root:rGEkY6HnKkREfne!@mysql_db/calendar_app
+    volumes:
+      - .:/app  # Map project directory to `/app`
+    working_dir: /app  # Set working directory inside the container
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload  # Run FastAPI with auto-reload
+
+volumes:
+  db_data:
