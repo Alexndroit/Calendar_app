@@ -6,7 +6,7 @@ services:
     container_name: mysql_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rGEkY6HnKkREfne!
+      MYSQL_ROOT_PASSWORD: mypass
       MYSQL_DATABASE: calendar_app
     ports:
       - "3307:3306"  # Host:Container
@@ -23,7 +23,7 @@ services:
     depends_on:
       - mysql_db
     environment:
-      DATABASE_URL: mysql+mysqlconnector://root:rGEkY6HnKkREfne!@mysql_db/calendar_app
+      DATABASE_URL: mysql+mysqlconnector://root:mypass@mysql_db/calendar_app
     volumes:
       - .:/app  # Map project directory to `/app`
     working_dir: /app  # Set working directory inside the container

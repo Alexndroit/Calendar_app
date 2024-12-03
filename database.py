@@ -8,7 +8,7 @@ logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
 # Database connection string
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:rGEkY6HnKkREfne!@mysql_db/calendar_app"
+SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:mypass@mysql_db/calendar_app"
 
 # Create the database engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=False)

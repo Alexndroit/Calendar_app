@@ -1,1 +1,2 @@
-Generic single-database configuration.
+# Disclaimer
+This repository is for educational purposes only. The MySQL root password and other sensitive details in the code are not meant for use in a real environment.
