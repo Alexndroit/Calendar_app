@@ -7,7 +7,7 @@ from alembic import context
 # Print PYTHONPATH for debugging
 print("PYTHONPATH:", sys.path)
 
-# Parent directory of the project (Python_codes) to the Python path
+# Parent directory of the project 
 sys.path.insert(0, r"C:\Users\Alex\Desktop\Python\Python_codes")
 
 # Import your Base and models
