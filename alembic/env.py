@@ -4,11 +4,11 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 
-# Print PYTHONPATH for debugging (remove later if everything works)
+# Print PYTHONPATH for debugging
 print("PYTHONPATH:", sys.path)
 
-# Add the parent directory of the project to the Python path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# Parent directory of the project (Python_codes) to the Python path
+sys.path.insert(0, r"C:\Users\Alex\Desktop\Python\Python_codes")
 
 # Import your Base and models
 from calendar_crud_app.database import Base
