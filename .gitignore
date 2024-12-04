@@ -1,0 +1,4 @@
+# Ignore configuration files with real credentials
+alembic.ini
+database.py
+docker-compose.yml
