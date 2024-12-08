@@ -2,3 +2,6 @@
 alembic.ini
 database.py
 docker-compose.yml
+*.pyc
+venv/
+alembic/versions/

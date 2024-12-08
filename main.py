@@ -100,19 +100,26 @@ def get_addresses_by_customer(customer_id: int, db: Session = Depends(get_db)):
     address_repo = AddressRepository(db)
     return address_repo.list_by_customer(customer_id)
 
-@app.put("/customers/{customer_id}/addresses/", response_model=List[Address])
-def update_customer_addresses(
-    customer_id: int,
-    addresses: List[AddressCreate],
-    db: Session = Depends(get_db),
-):
+@app.put("/customers/{customer_id}/addresses/{address_id}", response_model=Address)
+def update_address(customer_id: int, address_id: int, updated_address: AddressCreate, db: Session = Depends(get_db)):
     address_repo = AddressRepository(db)
-    customer_repo = CustomerRepository(db)
+    address = address_repo.get(customer_id, address_id)
+    if not address:
+        raise HTTPException(status_code=404, detail="Address not found")
+    address_repo.update(address_id, updated_address)
+    return address
 
-    # Check if customer exists
-    customer = customer_repo.get(customer_id)
-    if not customer:
-        raise HTTPException(status_code=404, detail="Customer not found")
+@app.delete("/customers/{customer_id}/addresses/{address_id}", response_model=dict)
+def delete_address(customer_id: int, address_id: int, db: Session = Depends(get_db)):
+    address_repo = AddressRepository(db)
+    address = address_repo.get(customer_id, address_id)
+    if not address:
+        raise HTTPException(status_code=404, detail="Address not found")
+    address_repo.delete(address)
+    return {"detail": "Address deleted successfully"}
 
-    # Update addresses for the customer
-    return address_repo.update_bulk(customer_id, addresses)
+# Fetch all addresses
+@app.get("/addresses/", response_model=List[Address])
+def get_all_addresses(db: Session = Depends(get_db)):
+    address_repo = AddressRepository(db)
+    return address_repo.list()  # Calls the list method to fetch all addresses

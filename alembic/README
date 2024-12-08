@@ -1,7 +1,1 @@
-## Setting Up Configuration Files
-
-1. Copy the example configuration files to the required names:
-   ```bash
-   cp alembic.example.ini alembic.ini
-   cp database.example.py database.py
-   cp docker-compose.example.yml docker-compose.yml
+Generic single-database configuration.
