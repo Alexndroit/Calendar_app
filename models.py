@@ -2,28 +2,25 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from .database import Base
 
-# Customer model
 class Customer(Base):
     __tablename__ = "customers"
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)  # Positive, auto-incrementing ID
-    name = Column(String(length=100), nullable=False, index=True)  # Explicit length
-    email = Column(String(length=100), unique=True, nullable=False, index=True)  # Explicit length
-    age = Column(Integer, nullable=True)  # Optional with no restrictions at the DB level
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = Column(String(length=100), nullable=False, index=True)
+    email = Column(String(length=100), unique=True, nullable=False, index=True)
+    age = Column(Integer, nullable=True)
 
-    # Establish a relationship with the Address model
     addresses = relationship("Address", back_populates="owner")
 
-# Address model
 class Address(Base):
     __tablename__ = "addresses"
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)  # Positive, auto-incrementing ID
-    street = Column(String(length=200), nullable=False)  # Explicit length
-    street2 = Column(String(length=200), nullable=True)  # Optional with explicit nullable=True
-    city = Column(String(length=100), nullable=False)  # Explicit length
-    zip_code = Column(String(length=5), nullable=False)  # Explicit length
-    customer_id = Column(Integer, ForeignKey("customers.id"), nullable=False)  # Mandatory ForeignKey
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    street = Column(String(length=200), nullable=False)
+    # Removed the street2 field
+    # street2 = Column(String(length=200), nullable=True)  <-- Remove this line
+    city = Column(String(length=100), nullable=False)
+    zip_code = Column(String(length=5), nullable=False)
+    customer_id = Column(Integer, ForeignKey("customers.id"), nullable=False)
 
-    # Establish a relationship with the Customer model
     owner = relationship("Customer", back_populates="addresses")

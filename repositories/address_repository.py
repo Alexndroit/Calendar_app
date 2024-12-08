@@ -3,7 +3,6 @@ from typing import List
 from models.address import Address
 from schemas.address import AddressCreate
 
-
 class AddressRepository:
     def __init__(self, db: Session):
         self.db = db
@@ -17,37 +16,22 @@ class AddressRepository:
     def list_by_customer(self, customer_id: int) -> List[Address]:
         return self.db.query(Address).filter(Address.customer_id == customer_id).all()
 
-    def update_bulk(self, customer_id: int, new_addresses: List[AddressCreate]) -> List[Address]:
-        # Fetch current addresses for the customer
-        existing_addresses = self.db.query(Address).filter(Address.customer_id == customer_id).all()
-        existing_map = {f"{addr.street}|{addr.city}|{addr.zip_code}": addr for addr in existing_addresses}
+    def list(self) -> List[Address]:
+        return self.db.query(Address).all()
 
-        # Keep track of updated addresses
-        updated_addresses = []
+    def get(self, customer_id: int, address_id: int) -> Address:
+        return self.db.query(Address).filter(Address.customer_id == customer_id, Address.id == address_id).first()
 
-        # Step 1: Update existing or add new addresses
-        for address_data in new_addresses:
-            key = f"{address_data.street}|{address_data.city}|{address_data.zip_code}"
-            if key in existing_map:
-                # Update existing address
-                existing_address = existing_map[key]
-                existing_address.street = address_data.street
-                existing_address.city = address_data.city
-                existing_address.zip_code = address_data.zip_code
-                updated_addresses.append(existing_address)
-                del existing_map[key]  # Remove from map as it's processed
-            else:
-                # Add new address
-                new_address = Address(customer_id=customer_id, **address_data.dict())
-                updated_addresses.append(new_address)
+    def update(self, address_id: int, address_data: AddressCreate) -> Address:
+        address = self.db.query(Address).filter(Address.id == address_id).first()
+        if address:
+            address.street = address_data.street
+            address.city = address_data.city
+            address.zip_code = address_data.zip_code
+            self.db.commit()
+            return address
+        return None
 
-        # Step 2: Delete addresses that were not in the incoming list
-        for address_to_delete in existing_map.values():
-            self.db.delete(address_to_delete)
-
-        # Commit changes to the database
-        self.db.add_all(updated_addresses)
+    def delete(self, address: Address) -> None:
+        self.db.delete(address)
         self.db.commit()
-
-        # Return updated list of addresses
-        return self.db.query(Address).filter(Address.customer_id == customer_id).all()
