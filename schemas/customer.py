@@ -4,7 +4,7 @@ from typing import Optional
 class CustomerCreate(BaseModel):
     name: str
     email: EmailStr
-    age: Optional[int] = None  # Assuming age is optional in your logic.
+    age: Optional[int] = None  
 
 class Customer(CustomerCreate):
     id: int
